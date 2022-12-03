@@ -8,7 +8,26 @@
       <link href="/2022/11/26/firstpage/"/>
       <url>/2022/11/26/firstpage/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<h1 id=""><a href="#" class="headerlink" title="#"></a>#</h1>]]></content>
+      
+      
+      <categories>
+          
+          <category> text </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>知识点</title>
+      <link href="/2022/11/26/knowledge/"/>
+      <url>/2022/11/26/knowledge/</url>
+      
+        <content type="html"><![CDATA[<h1 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h1><hr><h2 id="合同间的调用函数"><a href="#合同间的调用函数" class="headerlink" title="合同间的调用函数"></a>合同间的调用函数</h2><h3 id="call-delegatecall-callcode区别"><a href="#call-delegatecall-callcode区别" class="headerlink" title="call||delegatecall||callcode区别"></a>call||delegatecall||callcode区别</h3><p><strong>call</strong>：调用后内置变量msg的值会修改为调用者 执行环境为<em>被调用者</em>的环境<br>A调B B委托调C 此时msg.sender为B<br><strong>地址.call{value：}（bytes（keccak256（函数标识符）））</strong></p><p><strong>delegatecall</strong>： 调用后内置变量msg的值<em>不会</em>改为调用者 执行环境为<em>调用者</em> 的运行环境<br>如A调B B委托调用C 此时msg.sender为A</p><p><strong>callcode</strong>： 调用后内置变量msg的值会改为调用者，但执行环境为<em>调用者</em>的运行环境</p><hr><h2 id="通过selfdestruct发送ETH到不可接收合约"><a href="#通过selfdestruct发送ETH到不可接收合约" class="headerlink" title="通过selfdestruct发送ETH到不可接收合约"></a>通过selfdestruct发送ETH到不可接收合约</h2><p>合约自毁，把合约剩余balancs转到指定地址 不管有没有payable<br>selfdestruct(payable(address))</p><hr><h2 id="msg-sender-与tx-origin"><a href="#msg-sender-与tx-origin" class="headerlink" title="msg.sender 与tx.origin"></a>msg.sender 与tx.origin</h2><p> msg.sender为函数直接调用方  tx.origin是交易原始发起方<br> 如用户通过合约A调用合约B<br> 对于合约A tx.origin和msg.sender均为用户<br> 对于合约B tx.origin为用户 msg.sender为合约A</p>]]></content>
       
       
       <categories>
@@ -29,36 +48,61 @@
     
     
     <entry>
-      <title>text</title>
-      <link href="/2022/11/26/solidityF/"/>
-      <url>/2022/11/26/solidityF/</url>
-      
-        <content type="html"><![CDATA[<h1 id="查漏补缺"><a href="#查漏补缺" class="headerlink" title="查漏补缺"></a>查漏补缺</h1><hr><h2 id="address类型"><a href="#address类型" class="headerlink" title="address类型"></a>address类型</h2><p>地址类型(address)存储一个 20 字节的值（以太坊地址的大小）。地址类型也有成员变量，并作为所有合约的基础。有普通的地址和可以转账ETH的地址（payable）。payable的地址拥有balance和transfer()两个成员，方便查询ETH余额以及转账。</p><pre><code>// 地址address public _address = 0x7A58c0Be72BE218B41C608b7Fe7C5bB630736C71;address payable public _address1 = payable(_address); // payable address，可以转账、查余额// 地址类型的成员uint256 public balance = _address1.balance; // balance of address</code></pre><hr><h2 id="定长字节数组"><a href="#定长字节数组" class="headerlink" title="定长字节数组"></a>定长字节数组</h2><p>字节数组bytes分两种，一种定长（byte, bytes8, bytes32），另一种不定长。定长的属于数值类型，不定长的是引用类型。 定长bytes可以存一些数据，消耗gas比较少。</p><pre><code> // 固定长度的字节数组bytes32 public _byte32 = &quot;MiniSolidity&quot;; bytes1 public _byte = _byte32[0]; </code></pre><hr><h2 id="枚举-enum"><a href="#枚举-enum" class="headerlink" title="枚举 enum"></a>枚举 enum</h2><p>枚举（enum）是solidity中用户定义的数据类型。它主要用于为uint分配名称，使程序易于阅读和维护。它与C语言中的enum类似，使用名称来代替从0开始的uint</p><pre><code>// 用enum将uint 0， 1， 2表示为Buy, Hold, Sellenum ActionSet &#123; Buy, Hold, Sell &#125;// 创建enum变量 actionActionSet action = ActionSet.Buy;</code></pre><hr><h2 id="函数类型"><a href="#函数类型" class="headerlink" title="函数类型"></a>函数类型</h2><pre><code>function &lt;function name&gt; (&lt;parameter types&gt;) &#123;internal|external|public|private&#125; [pure|view|payable] [returns (&lt;return types&gt;)]</code></pre><p>payable（可支付的）带着它的函数，运行的时候可以给合约转入ETH<br>包含pure跟view关键字的函数是不改写链上状态的，因此用户直接调用他们是不需要付gas的<br>returns加在函数名后面，用于声明返回的变量类型及变量名；<br>return用于函数主体中，返回指定的变量 <strong>一个函数可有多个返回值</strong><br>我们可以在returns中标明返回变量的名称，这样solidity会自动给这些变量初始化，并且自动返回这些函数的值，不需要加return<br><strong>读取所有返回值：声明变量，并且将要赋值的变量用,隔开，按顺序排列。</strong><br><strong>读取部分返回值：声明要读取的返回值对应的变量，不读取的留空</strong></p><pre><code> (, _bool2, ) = returnNamed();</code></pre><hr><h2 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h2><p>引用类型(Reference Type)：包括数组（array），结构体（struct）和映射（mapping），这类变量占空间大，赋值时候直接传递地址（类似指针）。由于这类变量比较复杂，占用存储空间大，我们在使用时必须要声明数据存储的位置。</p><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p>对于memory修饰的动态数组，可以用new操作符来创建，但是必须声明长度，并且声明后长度不能改变</p><pre><code>// memory动态数组uint[] memory array8 = new uint[](5);bytes memory array9 = new bytes(9);</code></pre><p>用方括号包着来初始化array<br>[1,2,3]</p><h3 id="数组成员"><a href="#数组成员" class="headerlink" title="数组成员"></a>数组成员</h3><p>length: 数组有一个包含元素数量的length成员，memory数组的长度在创建后是固定的。<br>push(): 动态数组和bytes拥有push()成员，可以在数组最后添加一个0元素。<br>push(x): 动态数组和bytes拥有push(x)成员，可以在数组最后添加一个x元素。<br>pop(): 动态数组和bytes拥有pop()成员，可以移除数组最后一个元素。</p><hr><h2 id="数据位置"><a href="#数据位置" class="headerlink" title="数据位置"></a>数据位置</h2><p>solidity数据存储位置有三类：storage，memory和calldata。不同存储位置的gas成本不同。storage类型的数据存在链上，类似计算机的硬盘，消耗gas多；memory和calldata类型的临时存在内存里，消耗gas少</p><p>storage：合约里的状态变量默认都是storage，存储在链上。</p><p>memory：函数里的参数和临时变量一般用memory，存储在内存中，不上链。</p><p>calldata：和memory类似，存储在内存中，不上链。与memory的不同点在于calldata变量不能修改（immutable），一般用于函数的参数</p><p>1.storage（合约的状态变量）赋值给本地storage（函数里的）时候，会创建引用，改变新变量会影响原变量<br>2.storage赋值给memory，会创建独立的复本，修改其中一个不会影响另一个；反之亦然<br>3.memory赋值给memory，会创建引用，改变新变量会影响原变量<br>4.其他情况，变量赋值给storage，会创建独立的复本，修改其中一个不会影响另一个</p><hr><h2 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h2><p>全局变量是全局范围工作的变量，都是solidity预留关键字。他们可以在函数内不声明直接使用<br>blockhash(uint blockNumber): (bytes32)给定区块的哈希值 – 只适用于256最近区块, 不包含当前区块。<br>block.coinbase: (address payable) 当前区块矿工的地址<br>block.gaslimit: (uint) 当前区块的gaslimit<br>block.number: (uint) 当前区块的number<br>block.timestamp: (uint) 当前区块的时间戳，为unix纪元以来的秒<br>gasleft(): (uint256) 剩余 gas<br>msg.data: (bytes calldata) 完整call data<br>msg.sender: (address payable) 消息发送者 (当前 caller)<br>msg.sig: (bytes4) calldata的前四个字节 (function identifier)<br>msg.value: (uint) 当前交易发送的wei值</p><hr><h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><p>通过键（Key）来查询对应的值（Value）<br>映射的格式为mapping(_KeyType =&gt; _ValueType)，其中_KeyType和_ValueType分别是Key和Value的变量类型<br>规则1：映射的_KeyType只能选择solidity默认的类型，比如uint，address等，不能用自定义的结构体。而_ValueType可以使用自定义的类型<br>规则2：映射的存储位置必须是storage<br>规则3：如果映射声明为public，那么solidity会自动给你创建一个getter函数，可以通过Key来查询对应的Value<br>规则4：给映射新增的键值对的语法为_Var[_Key] = _Value，其中_Var是映射变量名，_Key和_Value对应新增的键值对</p><pre><code>function writeMap (uint _Key, address _Value) public&#123;    idToAddress[_Key] = _Value;&#125;</code></pre><hr><p>constant变量必须在声明的时候初始化，之后再也不能改变<br>immutable变量可以在声明时或构造函数中初始化，因此更加灵活</p><pre><code>address public immutable IMMUTABLE_ADDRESS;uint256 public immutable IMMUTABLE_BLOCK;uint256 public immutable IMMUTABLE_TEST;</code></pre><p>可以使用全局变量例如address(this)，block.number ，或者自定义的函数给immutable变量初始化</p><pre><code> constructor()&#123;    IMMUTABLE_ADDRESS = address(this);    IMMUTABLE_BLOCK = block.number;    IMMUTABLE_TEST = test();&#125;</code></pre><hr><h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>构造函数（constructor）是一种特殊的函数，每个合约可以定义一个，并在部署合约的时候自动运行一次。它可以用来初始化合约的一些参数，例如初始化合约的owner地址</p><pre><code>constructor() &#123;  owner = msg.sender; // 在部署合约的时候，将owner设置为部署者的地址</code></pre><p>   }</p><hr><h2 id="修饰器"><a href="#修饰器" class="headerlink" title="修饰器"></a>修饰器</h2><p>用于声明函数拥有的特性，减少代码冗余<br>modifier的主要使用场景是运行函数前的检查，例如地址，变量，余额</p><pre><code>modifier onlyOwner &#123;  require(msg.sender == owner); // 检查调用者是否为owner地址  _; // 如果是的话，继续运行函数主体；否则报错并revert交易</code></pre><p>   }<br>   function changeOwner(address _newOwner) external onlyOwner{<br>      owner = _newOwner; // 只有owner地址运行这个函数，并改变owner<br>   }</p><hr><h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><p>error方便且高效（省gas）地向用户解释操作失败的原因<br>在执行当中，error必须搭配revert（回退）命令使用</p><pre><code>error TransferNotOwner(); // 自定义errorfunction transferOwner1(uint256 tokenId, address newOwner) public &#123;    if(_owners[tokenId] != msg.sender)&#123;        revert TransferNotOwner();    &#125;    _owners[tokenId] = newOwner;&#125;</code></pre><p>require(检查条件，”异常的描述”)</p><p>assert命令一般用于程序员写程序debug，因为它不能解释抛出异常的原因（比require少个字符串）</p><hr><h2 id="构造函数继承"><a href="#构造函数继承" class="headerlink" title="构造函数继承"></a>构造函数继承</h2><p>1.在继承时声明父构造函数的参数，例如：contract B is A(1)<br>2.在子合约的构造函数中声明构造函数的参数</p><pre><code>contract C is A &#123;    constructor(uint _c) A(_c * _c) &#123;&#125;&#125;</code></pre><p>子合约可以利用super.函数名()来调用最近的父合约函数</p><hr><h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><p>事件（event）是EVM上日志的抽象<br>event关键字开头，然后跟事件名称，括号里面写好事件需要记录的变量类型和变量名</p><pre><code>event Transfer(address indexed from, address indexed to, uint256 value);</code></pre><p>每个indexed标记的变量可以理解为检索事件的索引“键”<br>每个事件最多有3个带indexed的变量。每个 indexed 变量的大小为固定的256比特<br>value 不带 indexed 关键字，会存储在事件的 data 部分中，可以理解为事件的“值”<br>date可储存复杂数据结构</p><p>释放事件<br>        emit Transfer(from, to, amount);</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> text </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 标签1 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>text</title>
+      <title>solidityM</title>
       <link href="/2022/11/26/solidityM/"/>
       <url>/2022/11/26/solidityM/</url>
       
         <content type="html"><![CDATA[<h1 id="soliditymatser"><a href="#soliditymatser" class="headerlink" title="soliditymatser"></a>soliditymatser</h1><hr><h2 id="函数重载"><a href="#函数重载" class="headerlink" title="函数重载"></a>函数重载</h2><p>字相同但输入参数类型不同的函数可以同时存在，他们被视为不同的函数</p><p>在调用重载函数时，会把输入的实际参数和函数参数的变量类型做匹配。 如果出现多个匹配的重载函数，则会报错</p><pre><code> function f(uint8 _in) public pure returns (uint8 out) &#123;    out = _in;&#125;function f(uint256 _in) public pure returns (uint256 out) &#123;    out = _in;&#125;</code></pre><p>输入50会报错<br>因为50既可以转换uint8 也可转换uint256</p><hr><h2 id="库合约"><a href="#库合约" class="headerlink" title="库合约"></a>库合约</h2><p>不能存在状态变量<br>不能够继承或被继承<br>不能接收以太币<br>不可以被销毁<br><strong>库合约的使用</strong><br>1.利用using for指令<br>指令using A for B;可用于附加库函数（从库 A）到任何类型（B） 库A中的函数会自动添加为B类型变量的成员，可以直接调用</p><pre><code>using Strings for uint256;function getString1(uint256 _number) public pure returns(string memory)&#123;    // 库函数会自动添加为uint256型变量的成员    return _number.toHexString();&#125;</code></pre><p>2.通过库合约名称调用库函数</p><hr><h2 id="import"><a href="#import" class="headerlink" title="import"></a>import</h2><p>1.通过源文件相对位置导入<br>import “./合约名.sol”；</p><p>2.通过源文件网址导入网上的合约<br>import ‘<a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Address.sol">https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Address.sol</a>‘;</p><p>3.通过npm的目录导入</p><p>4.通过全局符号导入特定的合约<br>import {合约名} from ‘./合约名.sol’;</p><hr><h2 id="接收ETH"><a href="#接收ETH" class="headerlink" title="接收ETH"></a>接收ETH</h2><p>receive()只用于处理接收ETH。一个合约最多有一个receive()函数<br>receive() external payable { … }<br>当合约接收ETH的时候，receive()会被触发</p><p>fallback()函数会在调用合约不存在的函数时被触发。可用于接收ETH，也可以用于代理合约proxy contract<br>必须由external修饰，一般也会用payable修饰，用于接收ETH:fallback() external payable { … }<br>触发fallback() 还是 receive()?</p><pre><code>触发fallback() 还是 receive()?        接收ETH          |         msg.data是空？            /  \        是    否        /      \receive()存在?   fallback()        / \    是  否    /     \receive()   fallback()</code></pre><hr><p><strong>ABI编码函数</strong><br>abi.encode<br>将给定参数利用ABI规则编码。ABI被设计出来跟智能合约交互，他将每个参数填充为32字节的数据，并拼接在一起</p><pre><code> function encode() public view returns(bytes memory result) &#123;    result = abi.encode(x, addr, name, array);&#125;</code></pre><p>合约交互用它<br>abi.encodePacked</p><pre><code> function encodePacked() public view returns(bytes memory result) &#123;    result = abi.encodePacked(x, addr, name, array);&#125;</code></pre><p>将给定参数根据其所需最低空间编码<br>省空间，并且不与合约交互<br>abi.encodeWithSignature<br>第一个参数为函数签名 </p><pre><code>function encodeWithSignature() public view returns(bytes memory result) &#123;    result = abi.encodeWithSignature(&quot;foo(uint256,address,string,uint256[2])&quot;, x, addr, name, array);&#125;</code></pre><p>abi.encodeWithSelector<br>只不过第一个参数为函数选择器，为函数签名Keccak哈希的前4个字节</p><pre><code>    function encodeWithSelector() public view returns(bytes memory result) &#123;    result = abi.encodeWithSelector(bytes4(keccak256(&quot;foo(uint256,address,string,uint256[2])&quot;)), x, addr, name, array);&#125;</code></pre><p><strong>ABI解码函数</strong><br>abi.decode用于解码abi.encode生成的二进制编码，将它还原成原本的参数</p><hr><h1 id="Hash应用"><a href="#Hash应用" class="headerlink" title="Hash应用"></a>Hash应用</h1><p>生成数据唯一标识<br>加密签名<br>安全加密</p><h2 id="Keccak256"><a href="#Keccak256" class="headerlink" title="Keccak256"></a>Keccak256</h2><p>哈希 = keccak256(数据)</p><hr><h1 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h1><h2 id="msg-date"><a href="#msg-date" class="headerlink" title="msg.date"></a>msg.date</h2><p>msg.data是solidity中的一个全局变量，值为完整的calldata（调用函数时传入的数据）<br>calldate前四个字节为函数选择器</p><p>method id定义为函数签名的Keccak哈希后的前4个字节，当selector与method id相匹配时，即表示调用该函数<br>函数签名：函数名（逗号分隔的参数类型)<br>在函数签名中，uint和int要写为uint256和int256</p><hr><p>在solidity中，try-catch只能被用于external函数或创建合约时constructor（被视为external函数）的调用</p><pre><code> try externalContract.f() &#123;        // call成功的情况下 运行一些代码    &#125; catch &#123;        // call失败的情况下 运行一些代码    &#125;</code></pre><p>externalContract.f()是某个外部合约的函数调用，try模块在调用成功的情况下运行，而catch模块则在调用失败时运行<br>同样可以使用this.f()来替代externalContract.f()，this.f()也被视作为外部调用，但不可在构造函数中使用</p><p>调用的函数有返回值，那么必须在try之后声明returns(returnType val)，并且在try模块中可以使用返回的变量；如果是创建合约，那么返回值是新创建的合约变量</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> text </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 标签1 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>web3_learning</title>
+      <link href="/2022/11/26/web3/"/>
+      <url>/2022/11/26/web3/</url>
+      
+        <content type="html"><![CDATA[<h1 id="web3使用"><a href="#web3使用" class="headerlink" title="web3使用"></a>web3使用</h1><p><strong>链接到区块链网络</strong></p><pre><code>const Web3 = require(&#39;web3&#39;) //加载web3库const rpcURL = &quot;https://goerli.infura.io/v3/705170723e474c33950e5044643883a9&quot; //创建web3连接const web3 = new Web3(rpcURL)</code></pre><p><strong>查地址余额</strong></p><pre><code>web3.eth.getBalance(address, (err, wei) =&gt; &#123;    // 余额单位从wei转换为ether    balance = web3.utils.fromWei(wei, &#39;ether&#39;)    console.log(&quot;balance: &quot; + balance)&#125;)</code></pre><p><strong>智能合约对象</strong><br>对象可以使用web3.eth.Contract()函数获得，此函数需要2个参数: 智能合约ABI、智能合约地址</p><pre><code>const abi = [合约abi]const address = 合约地址const contract = new web3.eth.Contract(abi, address)</code></pre><p><em>智能合约函数的调用</em><br>智能合约对象的methods属性下，包含了对应智能合约的所有函数。要调用智能合约中的某个函数，例如myFunction()，可以使用contract.methods.myFunction()的方式调用</p><p><strong>进行交易</strong><br>首先安装 ethereumjs-tx<br><em>引入新安装的库</em></p><pre><code>var Tx     = require(&#39;ethereumjs-tx&#39;).Transaction</code></pre><p><em>web3连接</em></p><pre><code>const Web3 = require(&#39;web3&#39;)const web3 = new Web3(&#39;https://ropsten.infura.io/mykey&#39;)</code></pre><p><em>准备账号</em>（node终端）</p><p><em>把私钥设为环境变量</em>（node终端）</p><p><em>创建账号变量读取私钥</em></p><p><em>进行交易</em><br>1.构建交易对象</p><pre><code>const txObject = &#123;nonce:    web3.utils.toHex(txCount),to:       account2,value:    web3.utils.toHex(web3.utils.toWei(&#39;0.1&#39;, &#39;ether&#39;)),gasLimit: web3.utils.toHex(21000),gasPrice: web3.utils.toHex(web3.utils.toWei(&#39;10&#39;, &#39;gwei&#39;))</code></pre><p>  }</p><p><em>签署交易</em></p><p><em>广播交易</em></p><hr><h3 id="做题中遇到的操作"><a href="#做题中遇到的操作" class="headerlink" title="做题中遇到的操作"></a>做题中遇到的操作</h3><p><strong>web3.utils.sha3（）</strong>  获取函数标识符<br><strong>contract.sendTransaction（）</strong>   向contract 发送ETH 并且可以构造msg.data</p><p><strong>web3.eth.getStorageAt(地址,变量的序号)</strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> text </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 标签1 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>solidityF</title>
+      <link href="/2022/11/26/solidityF/"/>
+      <url>/2022/11/26/solidityF/</url>
+      
+        <content type="html"><![CDATA[<h1 id="查漏补缺"><a href="#查漏补缺" class="headerlink" title="查漏补缺"></a>查漏补缺</h1><hr><h2 id="address类型"><a href="#address类型" class="headerlink" title="address类型"></a>address类型</h2><p>地址类型(address)存储一个 20 字节的值（以太坊地址的大小）。地址类型也有成员变量，并作为所有合约的基础。有普通的地址和可以转账ETH的地址（payable）。payable的地址拥有balance和transfer()两个成员，方便查询ETH余额以及转账。</p><pre><code>// 地址address public _address = 0x7A58c0Be72BE218B41C608b7Fe7C5bB630736C71;address payable public _address1 = payable(_address); // payable address，可以转账、查余额// 地址类型的成员uint256 public balance = _address1.balance; // balance of address</code></pre><hr><h2 id="定长字节数组"><a href="#定长字节数组" class="headerlink" title="定长字节数组"></a>定长字节数组</h2><p>字节数组bytes分两种，一种定长（byte, bytes8, bytes32），另一种不定长。定长的属于数值类型，不定长的是引用类型。 定长bytes可以存一些数据，消耗gas比较少。</p><pre><code> // 固定长度的字节数组bytes32 public _byte32 = &quot;MiniSolidity&quot;; bytes1 public _byte = _byte32[0]; </code></pre><hr><h2 id="枚举-enum"><a href="#枚举-enum" class="headerlink" title="枚举 enum"></a>枚举 enum</h2><p>枚举（enum）是solidity中用户定义的数据类型。它主要用于为uint分配名称，使程序易于阅读和维护。它与C语言中的enum类似，使用名称来代替从0开始的uint</p><pre><code>// 用enum将uint 0， 1， 2表示为Buy, Hold, Sellenum ActionSet &#123; Buy, Hold, Sell &#125;// 创建enum变量 actionActionSet action = ActionSet.Buy;</code></pre><hr><h2 id="函数类型"><a href="#函数类型" class="headerlink" title="函数类型"></a>函数类型</h2><pre><code>function &lt;function name&gt; (&lt;parameter types&gt;) &#123;internal|external|public|private&#125; [pure|view|payable] [returns (&lt;return types&gt;)]</code></pre><p>payable（可支付的）带着它的函数，运行的时候可以给合约转入ETH<br>包含pure跟view关键字的函数是不改写链上状态的，因此用户直接调用他们是不需要付gas的<br>returns加在函数名后面，用于声明返回的变量类型及变量名；<br>return用于函数主体中，返回指定的变量 <strong>一个函数可有多个返回值</strong><br>我们可以在returns中标明返回变量的名称，这样solidity会自动给这些变量初始化，并且自动返回这些函数的值，不需要加return<br><strong>读取所有返回值：声明变量，并且将要赋值的变量用,隔开，按顺序排列。</strong><br><strong>读取部分返回值：声明要读取的返回值对应的变量，不读取的留空</strong></p><pre><code> (, _bool2, ) = returnNamed();</code></pre><hr><h2 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h2><p>引用类型(Reference Type)：包括数组（array），结构体（struct）和映射（mapping），这类变量占空间大，赋值时候直接传递地址（类似指针）。由于这类变量比较复杂，占用存储空间大，我们在使用时必须要声明数据存储的位置。</p><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p>对于memory修饰的动态数组，可以用new操作符来创建，但是必须声明长度，并且声明后长度不能改变</p><pre><code>// memory动态数组uint[] memory array8 = new uint[](5);bytes memory array9 = new bytes(9);</code></pre><p>用方括号包着来初始化array<br>[1,2,3]</p><h3 id="数组成员"><a href="#数组成员" class="headerlink" title="数组成员"></a>数组成员</h3><p>length: 数组有一个包含元素数量的length成员，memory数组的长度在创建后是固定的。<br>push(): 动态数组和bytes拥有push()成员，可以在数组最后添加一个0元素。<br>push(x): 动态数组和bytes拥有push(x)成员，可以在数组最后添加一个x元素。<br>pop(): 动态数组和bytes拥有pop()成员，可以移除数组最后一个元素。</p><hr><h2 id="数据位置"><a href="#数据位置" class="headerlink" title="数据位置"></a>数据位置</h2><p>solidity数据存储位置有三类：storage，memory和calldata。不同存储位置的gas成本不同。storage类型的数据存在链上，类似计算机的硬盘，消耗gas多；memory和calldata类型的临时存在内存里，消耗gas少</p><p>storage：合约里的状态变量默认都是storage，存储在链上。</p><p>memory：函数里的参数和临时变量一般用memory，存储在内存中，不上链。</p><p>calldata：和memory类似，存储在内存中，不上链。与memory的不同点在于calldata变量不能修改（immutable），一般用于函数的参数</p><p>1.storage（合约的状态变量）赋值给本地storage（函数里的）时候，会创建引用，改变新变量会影响原变量<br>2.storage赋值给memory，会创建独立的复本，修改其中一个不会影响另一个；反之亦然<br>3.memory赋值给memory，会创建引用，改变新变量会影响原变量<br>4.其他情况，变量赋值给storage，会创建独立的复本，修改其中一个不会影响另一个</p><hr><h2 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h2><p>全局变量是全局范围工作的变量，都是solidity预留关键字。他们可以在函数内不声明直接使用<br>blockhash(uint blockNumber): (bytes32)给定区块的哈希值 – 只适用于256最近区块, 不包含当前区块。<br>block.coinbase: (address payable) 当前区块矿工的地址<br>block.gaslimit: (uint) 当前区块的gaslimit<br>block.number: (uint) 当前区块的number<br>block.timestamp: (uint) 当前区块的时间戳，为unix纪元以来的秒<br>gasleft(): (uint256) 剩余 gas<br>msg.data: (bytes calldata) 完整call data<br>msg.sender: (address payable) 消息发送者 (当前 caller)<br>msg.sig: (bytes4) calldata的前四个字节 (function identifier)<br>msg.value: (uint) 当前交易发送的wei值</p><hr><h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><p>通过键（Key）来查询对应的值（Value）<br>映射的格式为mapping(_KeyType =&gt; _ValueType)，其中_KeyType和_ValueType分别是Key和Value的变量类型<br>规则1：映射的_KeyType只能选择solidity默认的类型，比如uint，address等，不能用自定义的结构体。而_ValueType可以使用自定义的类型<br>规则2：映射的存储位置必须是storage<br>规则3：如果映射声明为public，那么solidity会自动给你创建一个getter函数，可以通过Key来查询对应的Value<br>规则4：给映射新增的键值对的语法为_Var[_Key] = _Value，其中_Var是映射变量名，_Key和_Value对应新增的键值对</p><pre><code>function writeMap (uint _Key, address _Value) public&#123;    idToAddress[_Key] = _Value;&#125;</code></pre><hr><p>constant变量必须在声明的时候初始化，之后再也不能改变<br>immutable变量可以在声明时或构造函数中初始化，因此更加灵活</p><pre><code>address public immutable IMMUTABLE_ADDRESS;uint256 public immutable IMMUTABLE_BLOCK;uint256 public immutable IMMUTABLE_TEST;</code></pre><p>可以使用全局变量例如address(this)，block.number ，或者自定义的函数给immutable变量初始化</p><pre><code> constructor()&#123;    IMMUTABLE_ADDRESS = address(this);    IMMUTABLE_BLOCK = block.number;    IMMUTABLE_TEST = test();&#125;</code></pre><hr><h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>构造函数（constructor）是一种特殊的函数，每个合约可以定义一个，并在部署合约的时候自动运行一次。它可以用来初始化合约的一些参数，例如初始化合约的owner地址</p><pre><code>constructor() &#123;  owner = msg.sender; // 在部署合约的时候，将owner设置为部署者的地址</code></pre><p>   }</p><hr><h2 id="修饰器"><a href="#修饰器" class="headerlink" title="修饰器"></a>修饰器</h2><p>用于声明函数拥有的特性，减少代码冗余<br>modifier的主要使用场景是运行函数前的检查，例如地址，变量，余额</p><pre><code>modifier onlyOwner &#123;  require(msg.sender == owner); // 检查调用者是否为owner地址  _; // 如果是的话，继续运行函数主体；否则报错并revert交易</code></pre><p>   }<br>   function changeOwner(address _newOwner) external onlyOwner{<br>      owner = _newOwner; // 只有owner地址运行这个函数，并改变owner<br>   }</p><hr><h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><p>error方便且高效（省gas）地向用户解释操作失败的原因<br>在执行当中，error必须搭配revert（回退）命令使用</p><pre><code>error TransferNotOwner(); // 自定义errorfunction transferOwner1(uint256 tokenId, address newOwner) public &#123;    if(_owners[tokenId] != msg.sender)&#123;        revert TransferNotOwner();    &#125;    _owners[tokenId] = newOwner;&#125;</code></pre><p>require(检查条件，”异常的描述”)</p><p>assert命令一般用于程序员写程序debug，因为它不能解释抛出异常的原因（比require少个字符串）</p><hr><h2 id="构造函数继承"><a href="#构造函数继承" class="headerlink" title="构造函数继承"></a>构造函数继承</h2><p>1.在继承时声明父构造函数的参数，例如：contract B is A(1)<br>2.在子合约的构造函数中声明构造函数的参数</p><pre><code>contract C is A &#123;    constructor(uint _c) A(_c * _c) &#123;&#125;&#125;</code></pre><p>子合约可以利用super.函数名()来调用最近的父合约函数</p><hr><h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><p>事件（event）是EVM上日志的抽象<br>event关键字开头，然后跟事件名称，括号里面写好事件需要记录的变量类型和变量名</p><pre><code>event Transfer(address indexed from, address indexed to, uint256 value);</code></pre><p>每个indexed标记的变量可以理解为检索事件的索引“键”<br>每个事件最多有3个带indexed的变量。每个 indexed 变量的大小为固定的256比特<br>value 不带 indexed 关键字，会存储在事件的 data 部分中，可以理解为事件的“值”<br>date可储存复杂数据结构</p><p>释放事件<br>        emit Transfer(from, to, amount);</p>]]></content>
       
       
       <categories>
