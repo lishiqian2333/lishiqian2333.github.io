@@ -1,0 +1,357 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>影 | 影</title><meta name="author" content="shaflow"><meta name="copyright" content="shaflow"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="关于spl-token-program主要数据类型state.rs中定义了程序中主要的数据类型和相关特征与关联方法   Minter铸造器。我们申请一个自己的代币，其实是申请了一个特定账号，含有铸造器的相关数据。 实现1234567891011121314151617&#x2F;&#x2F;&#x2F; Mint data.#[repr(C)]#[derive(Clone, Copy, Debug, Default, Part">
+<meta property="og:type" content="article">
+<meta property="og:title" content="影">
+<meta property="og:url" content="http://example.com/2024/01/25/spl-token-program/index.html">
+<meta property="og:site_name" content="影">
+<meta property="og:description" content="关于spl-token-program主要数据类型state.rs中定义了程序中主要的数据类型和相关特征与关联方法   Minter铸造器。我们申请一个自己的代币，其实是申请了一个特定账号，含有铸造器的相关数据。 实现1234567891011121314151617&#x2F;&#x2F;&#x2F; Mint data.#[repr(C)]#[derive(Clone, Copy, Debug, Default, Part">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.alicdn.com%2Fi1%2F3159590468%2FO1CN01POiQ7C1FKNysIsN6R_%21%213159590468.jpg&refer=http%3A%2F%2Fimg.alicdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1672058965&t=d7380115aef9b394d6c2baf4dee63799">
+<meta property="article:published_time" content="2024-01-25T09:15:53.386Z">
+<meta property="article:modified_time" content="2024-01-25T11:36:32.631Z">
+<meta property="article:author" content="shaflow">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.alicdn.com%2Fi1%2F3159590468%2FO1CN01POiQ7C1FKNysIsN6R_%21%213159590468.jpg&refer=http%3A%2F%2Fimg.alicdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1672058965&t=d7380115aef9b394d6c2baf4dee63799"><link rel="shortcut icon" href="https://img2.baidu.com/it/u=3673566212,1440065658&fm=253&fmt=auto&app=138&f=PNG?w=751&h=500"><link rel="canonical" href="http://example.com/2024/01/25/spl-token-program/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '影',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-01-25 19:36:32'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/construct.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://www.fomal.cc/static/css/runtime.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img0.baidu.com/it/u=1478036750,1488409170&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=800&amp;h=500" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">16</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">1</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.alicdn.com%2Fi1%2F3159590468%2FO1CN01POiQ7C1FKNysIsN6R_%21%213159590468.jpg&amp;refer=http%3A%2F%2Fimg.alicdn.com&amp;app=2002&amp;size=f9999,10000&amp;q=a80&amp;n=0&amp;g=0n&amp;fmt=auto?sec=1672058965&amp;t=d7380115aef9b394d6c2baf4dee63799')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">影</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><!--span=' '+_p('search.title')--></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">No title</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-01-25T09:15:53.386Z" title="Created 2024-01-25 17:15:53">2024-01-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-01-25T11:36:32.631Z" title="Updated 2024-01-25 19:36:32">2024-01-25</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">Word count:</span><span class="word-count">1.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">Reading time:</span><span>6min</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="关于spl-token-program"><a href="#关于spl-token-program" class="headerlink" title="关于spl-token-program"></a>关于spl-token-program</h3><h4 id="主要数据类型"><a href="#主要数据类型" class="headerlink" title="主要数据类型"></a>主要数据类型</h4><p>state.rs中定义了程序中主要的数据类型和相关特征与关联方法  </p>
+<h5 id="Minter"><a href="#Minter" class="headerlink" title="Minter"></a>Minter</h5><p>铸造器。<br>我们申请一个自己的代币，其实是申请了一个特定账号，含有铸造器的相关数据。</p>
+<p>实现<br><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// Mint data.</span></span><br><span class="line"><span class="meta">#[repr(C)]</span></span><br><span class="line"><span class="meta">#[derive(Clone, Copy, Debug, Default, PartialEq)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Mint</span> &#123;</span><br><span class="line">    <span class="comment">/// Optional authority used to mint new tokens. The mint authority may only be provided during</span></span><br><span class="line">    <span class="comment">/// mint creation. If no mint authority is present then the mint has a fixed supply and no</span></span><br><span class="line">    <span class="comment">/// further tokens may be minted.</span></span><br><span class="line">    <span class="keyword">pub</span> mint_authority: COption&lt;Pubkey&gt;,</span><br><span class="line">    <span class="comment">/// Total supply of tokens.</span></span><br><span class="line">    <span class="keyword">pub</span> supply: <span class="type">u64</span>,</span><br><span class="line">    <span class="comment">/// Number of base 10 digits to the right of the decimal place.</span></span><br><span class="line">    <span class="keyword">pub</span> decimals: <span class="type">u8</span>,</span><br><span class="line">    <span class="comment">/// Is `true` if this structure has been initialized</span></span><br><span class="line">    <span class="keyword">pub</span> is_initialized: <span class="type">bool</span>,</span><br><span class="line">    <span class="comment">/// Optional authority to freeze token accounts.</span></span><br><span class="line">    <span class="keyword">pub</span> freeze_authority: COption&lt;Pubkey&gt;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>规定了一些代币的基本信息，比如总供应，代币的小数位数，是否初始化，以及铸造权限者、冻结权限者  </p>
+<p>为其增添Pack特征，提供了序列化和反序列化Mint结构体的方法  </p>
+<h5 id="Account"><a href="#Account" class="headerlink" title="Account"></a>Account</h5><p>代币的关联账户信息，用来储存代币的余额。我们向特定地址铸币和转发代币，目标地址为是接收者对应的关联账户。</p>
+<p>实现<br><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[repr(C)]</span></span><br><span class="line"><span class="meta">#[derive(Clone, Copy, Debug, Default, PartialEq)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Account</span> &#123;</span><br><span class="line">    <span class="comment">/// The mint associated with this account</span></span><br><span class="line">    <span class="keyword">pub</span> mint: Pubkey,</span><br><span class="line">    <span class="comment">/// The owner of this account.</span></span><br><span class="line">    <span class="keyword">pub</span> owner: Pubkey,</span><br><span class="line">    <span class="comment">/// The amount of tokens this account holds.</span></span><br><span class="line">    <span class="keyword">pub</span> amount: <span class="type">u64</span>,</span><br><span class="line">    <span class="comment">/// If `delegate` is `Some` then `delegated_amount` represents</span></span><br><span class="line">    <span class="comment">/// the amount authorized by the delegate</span></span><br><span class="line">    <span class="keyword">pub</span> delegate: COption&lt;Pubkey&gt;,</span><br><span class="line">    <span class="comment">/// The account&#x27;s state</span></span><br><span class="line">    <span class="keyword">pub</span> state: AccountState,</span><br><span class="line">    <span class="comment">/// If is_some, this is a native token, and the value logs the rent-exempt reserve. An Account</span></span><br><span class="line">    <span class="comment">/// is required to be rent-exempt, so the value is used by the Processor to ensure that wrapped</span></span><br><span class="line">    <span class="comment">/// SOL accounts do not drop below this threshold.</span></span><br><span class="line">    <span class="keyword">pub</span> is_native: COption&lt;<span class="type">u64</span>&gt;,</span><br><span class="line">    <span class="comment">/// The amount delegated</span></span><br><span class="line">    <span class="keyword">pub</span> delegated_amount: <span class="type">u64</span>,</span><br><span class="line">    <span class="comment">/// Optional authority to close the account.</span></span><br><span class="line">    <span class="keyword">pub</span> close_authority: COption&lt;Pubkey&gt;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>mint字段指定了是哪个代币的资产信息</li>
+<li>owner字段规定了账户中的token归属于谁。  </li>
+<li>amount字段代表账户的余额</li>
+<li>state字段类型是一个枚举类型，有三种状态未初始化，已初始化，冻结</li>
+</ul>
+<h6 id="MultiSig"><a href="#MultiSig" class="headerlink" title="MultiSig"></a>MultiSig</h6><p>多签</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[repr(C)]</span></span><br><span class="line"><span class="meta">#[derive(Clone, Copy, Debug, Default, PartialEq)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Multisig</span> &#123;</span><br><span class="line">    <span class="comment">/// Number of signers required</span></span><br><span class="line">    <span class="keyword">pub</span> m: <span class="type">u8</span>,</span><br><span class="line">    <span class="comment">/// Number of valid signers</span></span><br><span class="line">    <span class="keyword">pub</span> n: <span class="type">u8</span>,</span><br><span class="line">    <span class="comment">/// Is `true` if this structure has been initialized</span></span><br><span class="line">    <span class="keyword">pub</span> is_initialized: <span class="type">bool</span>,</span><br><span class="line">    <span class="comment">/// Signer public keys</span></span><br><span class="line">    <span class="keyword">pub</span> signers: [Pubkey; MAX_SIGNERS],</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>合约主要逻辑位于processor.rs中  </p>
+<p>主要包括以下几个功能：  </p>
+<ul>
+<li><p>初始化创建minter</p>
+</li>
+<li><p>初始化创建account</p>
+</li>
+<li><p>transfer进行转账</p>
+</li>
+<li><p>approve授权</p>
+</li>
+<li><p>revoke取消授权</p>
+</li>
+<li><p>set_authority权限设置</p>
+</li>
+<li><p>mint_to 铸造</p>
+</li>
+<li><p>burn销毁</p>
+</li>
+<li><p>账户关闭、冻结</p>
+</li>
+</ul>
+<p>选择详细阅读几个功能的源码  </p>
+<h5 id="process-set-authority"><a href="#process-set-authority" class="headerlink" title="process_set_authority"></a>process_set_authority</h5><ul>
+<li>1.先获取传入的账户<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">account_info_iter</span> = &amp;<span class="keyword">mut</span> accounts.<span class="title function_ invoke__">iter</span>();</span><br><span class="line"><span class="keyword">let</span> <span class="variable">account_info</span> = <span class="title function_ invoke__">next_account_info</span>(account_info_iter)?;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">authority_info</span> = <span class="title function_ invoke__">next_account_info</span>(account_info_iter)?;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li>2.解包account_info的账户data，判断是Account账户还是Minter账户<br>  之后分为两种情况  </li>
+<li>（1）为Account账户</li>
+<li><p>检查账户状态，判断是否被冻结</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> account.<span class="title function_ invoke__">is_frozen</span>() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_ invoke__">Err</span>(TokenError::AccountFrozen.<span class="title function_ invoke__">into</span>());</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>之后按传入的authority_type匹配枚举，可以选择更换closeAccount的管理者和账户的owner。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">AuthorityType::AccountOwner =&gt; &#123;</span><br><span class="line">    <span class="keyword">Self</span>::<span class="title function_ invoke__">validate_owner</span>(</span><br><span class="line">        program_id,</span><br><span class="line">        &amp;account.owner,</span><br><span class="line">        authority_info,</span><br><span class="line">        account_info_iter.<span class="title function_ invoke__">as_slice</span>(),</span><br><span class="line">    )?;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">COption</span>::<span class="title function_ invoke__">Some</span>(authority) = new_authority &#123;</span><br><span class="line">        account.owner = authority;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_ invoke__">Err</span>(TokenError::InvalidInstruction.<span class="title function_ invoke__">into</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">AuthorityType::CloseAccount =&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">authority</span> = account.close_authority.<span class="title function_ invoke__">unwrap_or</span>(account.owner);</span><br><span class="line">    <span class="keyword">Self</span>::<span class="title function_ invoke__">validate_owner</span>(</span><br><span class="line">        program_id,</span><br><span class="line">        &amp;authority,</span><br><span class="line">        authority_info,</span><br><span class="line">        account_info_iter.<span class="title function_ invoke__">as_slice</span>(),</span><br><span class="line">    )?;</span><br><span class="line">    account.close_authority = new_authority;</span><br><span class="line">&#125;</span><br><span class="line">_ =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_ invoke__">Err</span>(TokenError::AuthorityTypeNotSupported.<span class="title function_ invoke__">into</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意二者执行前均会进行验签，如果不是多签的，则均需要之前的对应权限账号的签名  </p>
+</li>
+<li><p>（2）Minter账户</p>
+</li>
+<li>同样按传入的authority_type匹配枚举 可以选择更换铸造权限和冻结权限的账户地址<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">AuthorityType::MintTokens =&gt; &#123;</span><br><span class="line">                    <span class="comment">// Once a mint&#x27;s supply is fixed, it cannot be undone by setting a new</span></span><br><span class="line">                    <span class="comment">// mint_authority</span></span><br><span class="line">                    <span class="keyword">let</span> <span class="variable">mint_authority</span> = mint</span><br><span class="line">                        .mint_authority</span><br><span class="line">                        .<span class="title function_ invoke__">ok_or</span>(<span class="built_in">Into</span>::&lt;ProgramError&gt;::<span class="title function_ invoke__">into</span>(TokenError::FixedSupply))?;</span><br><span class="line">                    <span class="keyword">Self</span>::<span class="title function_ invoke__">validate_owner</span>(</span><br><span class="line">                        program_id,</span><br><span class="line">                        &amp;mint_authority,</span><br><span class="line">                        authority_info,</span><br><span class="line">                        account_info_iter.<span class="title function_ invoke__">as_slice</span>(),</span><br><span class="line">                    )?;</span><br><span class="line">                    mint.mint_authority = new_authority;</span><br><span class="line">                &#125;</span><br><span class="line">                AuthorityType::FreezeAccount =&gt; &#123;</span><br><span class="line">                    <span class="comment">// Once a mint&#x27;s freeze authority is disabled, it cannot be re-enabled by</span></span><br><span class="line">                    <span class="comment">// setting a new freeze_authority</span></span><br><span class="line">                    <span class="keyword">let</span> <span class="variable">freeze_authority</span> = mint</span><br><span class="line">                        .freeze_authority</span><br><span class="line">                        .<span class="title function_ invoke__">ok_or</span>(<span class="built_in">Into</span>::&lt;ProgramError&gt;::<span class="title function_ invoke__">into</span>(TokenError::MintCannotFreeze))?;</span><br><span class="line">                    <span class="keyword">Self</span>::<span class="title function_ invoke__">validate_owner</span>(</span><br><span class="line">                        program_id,</span><br><span class="line">                        &amp;freeze_authority,</span><br><span class="line">                        authority_info,</span><br><span class="line">                        account_info_iter.<span class="title function_ invoke__">as_slice</span>(),</span><br><span class="line">                    )?;</span><br><span class="line">                    mint.freeze_authority = new_authority;</span><br><span class="line">                &#125;</span><br><span class="line">                _ =&gt; &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="title function_ invoke__">Err</span>(TokenError::AuthorityTypeNotSupported.<span class="title function_ invoke__">into</span>());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+注意二者执行前均会进行验签，如果不是多签的，则均需要之前的对应权限账号的签名  </li>
+</ul>
+<h5 id="process-transfer"><a href="#process-transfer" class="headerlink" title="process_transfer"></a>process_transfer</h5><ul>
+<li><p>获取账户解包信息</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">account_info_iter</span> = &amp;<span class="keyword">mut</span> accounts.<span class="title function_ invoke__">iter</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">source_account_info</span> = <span class="title function_ invoke__">next_account_info</span>(account_info_iter)?;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">expected_mint_info</span> = <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(expected_decimals) = expected_decimals &#123;</span><br><span class="line">    <span class="title function_ invoke__">Some</span>((<span class="title function_ invoke__">next_account_info</span>(account_info_iter)?, expected_decimals))</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="literal">None</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">dest_account_info</span> = <span class="title function_ invoke__">next_account_info</span>(account_info_iter)?;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">authority_info</span> = <span class="title function_ invoke__">next_account_info</span>(account_info_iter)?;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">source_account</span> = Account::<span class="title function_ invoke__">unpack</span>(&amp;source_account_info.data.<span class="title function_ invoke__">borrow</span>())?;</span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">dest_account</span> = Account::<span class="title function_ invoke__">unpack</span>(&amp;dest_account_info.data.<span class="title function_ invoke__">borrow</span>())?;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>输入检查</p>
+</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> source_account.<span class="title function_ invoke__">is_frozen</span>() || dest_account.<span class="title function_ invoke__">is_frozen</span>() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_ invoke__">Err</span>(TokenError::AccountFrozen.<span class="title function_ invoke__">into</span>());</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> source_account.amount &lt; amount &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_ invoke__">Err</span>(TokenError::InsufficientFunds.<span class="title function_ invoke__">into</span>());</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> source_account.mint != dest_account.mint &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_ invoke__">Err</span>(TokenError::MintMismatch.<span class="title function_ invoke__">into</span>());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>((mint_info, expected_decimals)) = expected_mint_info &#123;</span><br><span class="line">    <span class="keyword">if</span> source_account.mint != *mint_info.key &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_ invoke__">Err</span>(TokenError::MintMismatch.<span class="title function_ invoke__">into</span>());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">mint</span> = Mint::<span class="title function_ invoke__">unpack</span>(&amp;mint_info.data.<span class="title function_ invoke__">borrow_mut</span>())?;</span><br><span class="line">    <span class="keyword">if</span> expected_decimals != mint.decimals &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_ invoke__">Err</span>(TokenError::MintDecimalsMismatch.<span class="title function_ invoke__">into</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>包括：</p>
+<ul>
+<li>发送方和接收方的账户是否被冻结</li>
+<li>发送方是否有足够的余额</li>
+<li>发送方接收方账户是否属于一个代币</li>
+<li><p>如果提供了期望的小数位数，验证源账户对应的货币的小数位数是否符合期望。</p>
+</li>
+<li><p>之后设置一个值判断是不是向自己转账</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">self_transfer</span> = source_account_info.key == dest_account_info.key;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>之后根据是否是delegate调用分两种情况验签 如果存在delegate并且匹配参数authority_info，则需要delegate签名 并且delegate_amount足够，再减少相应delegate_amount余额，如果余额变为了0，把delegate信息设为空，否则需要owner签名</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">match</span> source_account.delegate &#123;</span><br><span class="line">       COption::<span class="title function_ invoke__">Some</span>(<span class="keyword">ref</span> delegate) <span class="keyword">if</span> authority_info.key == delegate =&gt; &#123;</span><br><span class="line">           <span class="keyword">Self</span>::<span class="title function_ invoke__">validate_owner</span>(</span><br><span class="line">               program_id,</span><br><span class="line">               delegate,</span><br><span class="line">               authority_info,</span><br><span class="line">               account_info_iter.<span class="title function_ invoke__">as_slice</span>(),</span><br><span class="line">           )?;</span><br><span class="line">           <span class="keyword">if</span> source_account.delegated_amount &lt; amount &#123;</span><br><span class="line">               <span class="keyword">return</span> <span class="title function_ invoke__">Err</span>(TokenError::InsufficientFunds.<span class="title function_ invoke__">into</span>());</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">if</span> !self_transfer &#123;</span><br><span class="line">               source_account.delegated_amount = source_account</span><br><span class="line">                   .delegated_amount</span><br><span class="line">                   .<span class="title function_ invoke__">checked_sub</span>(amount)</span><br><span class="line">                   .<span class="title function_ invoke__">ok_or</span>(TokenError::Overflow)?;</span><br><span class="line">               <span class="keyword">if</span> source_account.delegated_amount == <span class="number">0</span> &#123;</span><br><span class="line">                   source_account.delegate = COption::<span class="literal">None</span>;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       _ =&gt; <span class="keyword">Self</span>::<span class="title function_ invoke__">validate_owner</span>(</span><br><span class="line">           program_id,</span><br><span class="line">           &amp;source_account.owner,</span><br><span class="line">           authority_info,</span><br><span class="line">           account_info_iter.<span class="title function_ invoke__">as_slice</span>(),</span><br><span class="line">       )?,</span><br><span class="line">   &#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>之后如果是向自身转账 直接通过  </p>
+</li>
+<li><p>对双方账户的资金进行变更</p>
+</li>
+<li>这里使用checked_sub和checked_add防止溢出</li>
+<li>如果被包装，则还需要对其lamports进行增减<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">source_account.amount = source_account</span><br><span class="line">    .amount</span><br><span class="line">    .<span class="title function_ invoke__">checked_sub</span>(amount)</span><br><span class="line">    .<span class="title function_ invoke__">ok_or</span>(TokenError::Overflow)?;</span><br><span class="line">dest_account.amount = dest_account</span><br><span class="line">    .amount</span><br><span class="line">    .<span class="title function_ invoke__">checked_add</span>(amount)</span><br><span class="line">    .<span class="title function_ invoke__">ok_or</span>(TokenError::Overflow)?;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> source_account.<span class="title function_ invoke__">is_native</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">source_starting_lamports</span> = source_account_info.<span class="title function_ invoke__">lamports</span>();</span><br><span class="line">    **source_account_info.lamports.<span class="title function_ invoke__">borrow_mut</span>() = source_starting_lamports</span><br><span class="line">        .<span class="title function_ invoke__">checked_sub</span>(amount)</span><br><span class="line">        .<span class="title function_ invoke__">ok_or</span>(TokenError::Overflow)?;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">dest_starting_lamports</span> = dest_account_info.<span class="title function_ invoke__">lamports</span>();</span><br><span class="line">    **dest_account_info.lamports.<span class="title function_ invoke__">borrow_mut</span>() = dest_starting_lamports</span><br><span class="line">        .<span class="title function_ invoke__">checked_add</span>(amount)</span><br><span class="line">        .<span class="title function_ invoke__">ok_or</span>(TokenError::Overflow)?;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">shaflow</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2024/01/25/spl-token-program/">http://example.com/2024/01/25/spl-token-program/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.alicdn.com%2Fi1%2F3159590468%2FO1CN01POiQ7C1FKNysIsN6R_%21%213159590468.jpg&amp;refer=http%3A%2F%2Fimg.alicdn.com&amp;app=2002&amp;size=f9999,10000&amp;q=a80&amp;n=0&amp;g=0n&amp;fmt=auto?sec=1672058965&amp;t=d7380115aef9b394d6c2baf4dee63799" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/12/15/solana%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img0.baidu.com/it/u=471504868,3486654871&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=889&amp;h=500" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info"></div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img0.baidu.com/it/u=1478036750,1488409170&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=800&amp;h=500" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">shaflow</div><div class="author-info__description">巴尔泽布</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">16</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/shaflow-fol"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">欢迎来到我的博客！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Espl-token-program"><span class="toc-text">关于spl-token-program</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">主要数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Minter"><span class="toc-text">Minter</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Account"><span class="toc-text">Account</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#MultiSig"><span class="toc-text">MultiSig</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#process-set-authority"><span class="toc-text">process_set_authority</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#process-transfer"><span class="toc-text">process_transfer</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By shaflow</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="Switch Between Traditional Chinese And Simplified Chinese">繁</button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script defer src="/js/light.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="/js/cursor.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="30" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var qweather_key = 'b16a1fa0e63c46a4b8f28abfb06ae3fe';
+  var gaud_map_key = 'e2b04289e870b005374ee030148d64fd&s=rsv3';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '113.34532,23.15624';
+  var clock_default_rectangle_enable = 'false';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="https://www.fomal.cc/static/js/runtime.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '2');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><script data-pjax src="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.js"></script><script data-pjax>
+  function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('gitZone');
+      var item_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+      }
+
+    if( document.getElementById('gitZone') && (location.pathname ==='/about/'|| '/about/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gitcalendar.fomal.cc/api?shaflow-fol",['#d9e0df', '#c6e0dc', '#a8dcd4', '#9adcd2', '#89ded1', '#77e0d0', '#5fdecb', '#47dcc6', '#39dcc3', '#1fdabe', '#00dab9'],'shaflow-fol')
+    }
+  </script><!-- hexo injector body_end end --></body></html>
